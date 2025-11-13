@@ -78,7 +78,7 @@ const ChallengeScreen: React.FC<ChallengeScreenProps> = ({ currentDay, setCurren
       <main className="pt-20 px-4 md:px-8">
         <div className="aspect-video rounded-lg overflow-hidden shadow-lg mx-auto max-w-sm">
            <iframe 
-            src={`https://www.youtube.com/embed/${dayData.videoId}`} 
+            src={`https://www.youtube-nocookie.com/embed/${dayData.videoId}`} 
             title={dayData.title}
             frameBorder="0" 
             allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
