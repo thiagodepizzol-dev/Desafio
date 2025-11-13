@@ -6,14 +6,14 @@ export const CHALLENGE_DATA: ChallengeDay[] = [
     title: "Respiração Quadradas dos Navy Seals Americanos",
     description: "Essa respiração é utilizada pelos combatentes para reduzir significativamente os níveis de estresse. Sugestão: Repetir 2x ao dia (Manhã e noite)",
     duration: 10,
-    videoId: "j6p3kzidSVQ" // New, confirmed embeddable public video for Box Breathing
+    videoId: "L2WQfAurZAE" // New, confirmed embeddable public video for Box Breathing
   },
   {
     day: 2,
-    title: "Postura da Montanha (Tadasana)",
-    description: "Aprenda a base de todas as posturas em pé. Tadasana ensina o alinhamento e a consciência corporal, criando uma fundação sólida para sua prática.",
+    title: "Respiração alternada",
+    description: "A respiração alternada equilibra os dois hemisférios cerebrais: o esquerdo (lógico, racional) e o direito (criativo, intuitivo). A prática reduz atividade da amígdala (centro do medo) e aumenta clareza mental.",
     duration: 12,
-    videoId: "_-vTj7In5m8" // Public video for Mountain Pose
+    videoId: "KLT9e_qDM_E" // Public video for Mountain Pose
   },
   {
     day: 3,
