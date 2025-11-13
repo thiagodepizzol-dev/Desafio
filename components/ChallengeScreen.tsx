@@ -176,7 +176,12 @@ const ChallengeScreen: React.FC<ChallengeScreenProps> = ({ currentDay, setCurren
             <ClockIcon />
             <span>{dayData.duration} MINUTOS</span>
           </div>
-          <button onClick={() => goToDay(currentDay + 1)} disabled={currentDay === CHALLENGE_DATA.length} className="disabled:opacity-30" aria-label="Próximo dia">
+          <button 
+            onClick={() => goToDay(currentDay + 1)} 
+            disabled={currentDay === CHALLENGE_DATA.length || !completedDays[dayIndex]} 
+            className="disabled:opacity-30 transition-opacity" 
+            aria-label="Próximo dia"
+          >
             <ChevronRightIcon />
           </button>
         </div>
