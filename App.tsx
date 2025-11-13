@@ -26,18 +26,37 @@ const App: React.FC = () => {
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
+          // If a progress doc exists, the user has started. Load the data.
           const data = docSnap.data();
-          if (data.currentDay && data.completedDays) {
-            setCurrentDay(data.currentDay);
-            setCompletedDays(data.completedDays);
-            setChallengeStarted(true); // User has existing progress, skip welcome
+          
+          // Load currentDay, defaulting to 1 if not present
+          setCurrentDay(data.currentDay || 1);
+
+          // Load completedDays, defaulting to a new array if not present
+          const loadedCompleted = data.completedDays || Array(CHALLENGE_DATA.length).fill(false);
+          
+          // Safety check: ensure the array length matches the current challenge length
+          if (loadedCompleted.length !== CHALLENGE_DATA.length) {
+              const correctedCompleted = Array(CHALLENGE_DATA.length).fill(false);
+              const copyLength = Math.min(loadedCompleted.length, CHALLENGE_DATA.length);
+              for (let i = 0; i < copyLength; i++) {
+                  correctedCompleted[i] = loadedCompleted[i];
+              }
+              setCompletedDays(correctedCompleted);
+          } else {
+              setCompletedDays(loadedCompleted);
           }
+          
+          setChallengeStarted(true); // User has existing progress, go directly to challenge
         } else {
-            // New user, show welcome screen first
+            // New user or no progress saved, show welcome screen first
             setChallengeStarted(false);
+            // Reset to default state for a clean start
+            setCurrentDay(1);
+            setCompletedDays(Array(CHALLENGE_DATA.length).fill(false));
         }
       } else {
-        // Reset challenge progress on logout
+        // User is logged out, reset everything
         setCurrentDay(1);
         setCompletedDays(Array(CHALLENGE_DATA.length).fill(false));
         setChallengeStarted(false);
