@@ -3,8 +3,9 @@ import LoginScreen from './components/LoginScreen';
 import WelcomeScreen from './components/WelcomeScreen';
 import ChallengeScreen from './components/ChallengeScreen';
 import { CHALLENGE_DATA } from './constants';
-import { auth } from './firebase';
+import { auth, db } from './firebase';
 import { onAuthStateChanged, User } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
+import { doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js";
 
 
 const App: React.FC = () => {
@@ -15,17 +16,59 @@ const App: React.FC = () => {
   const [currentDay, setCurrentDay] = useState(1);
   const [completedDays, setCompletedDays] = useState<boolean[]>(Array(CHALLENGE_DATA.length).fill(false));
 
+  // Handle user authentication state and load data
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
-      if (!currentUser) {
+      if (currentUser) {
+        // User is logged in, load their progress
+        const docRef = doc(db, 'userProgress', currentUser.uid);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          if (data.currentDay && data.completedDays) {
+            setCurrentDay(data.currentDay);
+            setCompletedDays(data.completedDays);
+            setChallengeStarted(true); // User has existing progress, skip welcome
+          }
+        } else {
+            // New user, show welcome screen first
+            setChallengeStarted(false);
+        }
+      } else {
         // Reset challenge progress on logout
+        setCurrentDay(1);
+        setCompletedDays(Array(CHALLENGE_DATA.length).fill(false));
         setChallengeStarted(false);
       }
       setLoading(false);
     });
     return () => unsubscribe();
   }, []);
+
+  // Save progress to Firestore whenever it changes
+  useEffect(() => {
+    if (!user || loading) {
+      return; // Don't save if there's no user or initial data is loading
+    }
+
+    const saveProgress = async () => {
+      try {
+        const docRef = doc(db, 'userProgress', user.uid);
+        await setDoc(docRef, {
+          currentDay,
+          completedDays,
+        });
+      } catch (error) {
+        console.error("Error saving progress: ", error);
+      }
+    };
+    
+    saveProgress();
+
+  }, [currentDay, completedDays, user, loading]);
+
 
   const handleStartChallenge = () => {
     setChallengeStarted(true);
