@@ -49,3 +49,15 @@ export const YogaPose2 = () => (
     <path d="M 70,160 L 130,160" stroke="#3A4F4D" stroke-width="4" stroke-linecap="round" />
   </svg>
 );
+
+export const PlayIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 ml-1" fill="currentColor" viewBox="0 0 16 16">
+    <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>
+  </svg>
+);
+
+export const PauseIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="currentColor" viewBox="0 0 16 16">
+    <path d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5A1.5 1.5 0 0 1 5.5 3.5zm4 0A1.5 1.5 0 0 1 11 5v6a1.5 1.5 0 0 1-3 0V5A1.5 1.5 0 0 1 9.5 3.5z"/>
+  </svg>
+);

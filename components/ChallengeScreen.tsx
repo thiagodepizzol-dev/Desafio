@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import YouTube from 'react-youtube';
 import { CHALLENGE_DATA } from '../constants';
 import { ChallengeDay } from '../types';
-import { MenuIcon, ClockIcon, ChevronLeftIcon, ChevronRightIcon, CloseIcon } from './icons';
+import { MenuIcon, ClockIcon, ChevronLeftIcon, ChevronRightIcon, CloseIcon, PlayIcon, PauseIcon } from './icons';
 import { auth } from '../firebase';
 import { signOut } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
 
@@ -14,17 +15,46 @@ interface ChallengeScreenProps {
 
 const ChallengeScreen: React.FC<ChallengeScreenProps> = ({ currentDay, setCurrentDay, completedDays, toggleDayCompletion }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [player, setPlayer] = useState<any>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
   const dayData = CHALLENGE_DATA[currentDay - 1];
 
   const goToDay = (day: number) => {
     if (day >= 1 && day <= CHALLENGE_DATA.length) {
       setCurrentDay(day);
+      setIsPlaying(false);
+      if (player) {
+        player.stopVideo();
+      }
     }
     setIsMenuOpen(false);
   };
 
   const handleLogout = async () => {
     await signOut(auth);
+  };
+  
+  const onPlayerReady = (event: { target: any; }) => {
+    setPlayer(event.target);
+  };
+
+  const handleStateChange = (event: { data: number; }) => {
+    // Player states: -1 (unstarted), 0 (ended), 1 (playing), 2 (paused), 3 (buffering), 5 (video cued)
+    if (event.data === 1) { // playing
+        setIsPlaying(true);
+    } else if (event.data === 2 || event.data === 0) { // paused or ended
+        setIsPlaying(false);
+    }
+  };
+
+  const togglePlay = () => {
+    if (!player) return;
+    const playerState = player.getPlayerState();
+    if (playerState === 1) { // is playing
+      player.pauseVideo();
+    } else {
+      player.playVideo();
+    }
   };
 
   const dayIndex = currentDay - 1;
@@ -76,15 +106,32 @@ const ChallengeScreen: React.FC<ChallengeScreenProps> = ({ currentDay, setCurren
       )}
 
       <main className="pt-20 px-4 md:px-8">
-        <div className="aspect-video rounded-lg overflow-hidden shadow-lg mx-auto max-w-sm">
-           <iframe 
-            src={`https://www.youtube-nocookie.com/embed/${dayData.videoId}`} 
-            title={dayData.title}
-            frameBorder="0" 
-            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-            allowFullScreen
+        <div className="relative aspect-video rounded-lg overflow-hidden shadow-lg mx-auto max-w-sm bg-black group">
+          <YouTube
+            videoId={dayData.videoId}
+            opts={{
+              playerVars: {
+                controls: 0,
+                rel: 0,
+                disablekb: 1,
+                modestbranding: 1,
+              },
+            }}
+            onReady={onPlayerReady}
+            onStateChange={handleStateChange}
             className="w-full h-full"
-          ></iframe>
+          />
+          <div className="absolute inset-0 cursor-pointer" onClick={togglePlay}>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <button
+                aria-label={isPlaying ? 'Pausar vídeo' : 'Reproduzir vídeo'}
+                className={`flex items-center justify-center bg-black/50 text-white rounded-full h-16 w-16 transform transition-all duration-200 ease-in-out ${isPlaying ? 'opacity-0 group-hover:opacity-100 scale-75 group-hover:scale-100' : 'opacity-100 scale-100'}`}
+                onClick={(e) => { e.stopPropagation(); togglePlay(); }}
+              >
+                {isPlaying ? <PauseIcon /> : <PlayIcon />}
+              </button>
+            </div>
+          </div>
         </div>
 
         <div className="max-w-4xl mx-auto mt-8 text-center">
