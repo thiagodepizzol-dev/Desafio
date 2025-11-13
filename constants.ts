@@ -31,23 +31,23 @@ export const CHALLENGE_DATA: ChallengeDay[] = [
   },
   {
     day: 5,
-    title: "Respiração 4 7 8)",
+    title: "Respiração 4 7 8",
     description: "Esta técnica de respiração rítmica, popularizada pelo Dr. Andrew Weil, é usada para reduzir a ansiedade e ajudar a induzir o sono. O foco na contagem e a expiração prolongada ativam o sistema nervoso parassimpático, promovendo um estado de calma. Sugestão: Repetir 2x ao dia (Manhã e noite)",
     duration: 8,
     videoId: "vF_cDUAs-Cs" // Public video for Child's Pose
   },
   {
     day: 6,
-    title: "Respiração 4 7 8",
-    description: "Esta técnica de respiração rítmica, popularizada pelo Dr. Andrew Weil, é usada para reduzir a ansiedade e ajudar a induzir o sono. O foco na contagem e a expiração prolongada ativam o sistema nervoso parassimpático, promovendo um estado de calma.",
+    title: "Simha Pranayama",
+    description: "É uma técnica energizante (pranayama) usada no yoga para liberar tensão acumulada, especialmente no rosto, mandíbula e garganta. Além de ativar o sistema linfático. Sugestão: Repetir 2x ao dia (Manhã e noite)",
     duration: 12,
-    videoId: "vF_cDUAs-Cs" // Public video for Alternate Nostril Breathing
+    videoId: "x5sFxDhylMk" // Public video for Alternate Nostril Breathing
   },
   {
     day: 7,
-    title: "Relaxamento Profundo (Savasana)",
-    description: "A postura final para integrar os benefícios da prática. Savasana permite que o corpo e a mente relaxem completamente, promovendo a cura e a restauração.",
+    title: "Meditação no Coração",
+    description: "Reduz o estresse e a ansiedade, promove o equilíbrio emocional, aumenta a empatia e gera uma sensação de paz interior e conexão consigo mesmo e com os outros. Sugestão: Repetir 2x ao dia (Manhã e noite)",
     duration: 15,
-    videoId: "2OEL4P1Rz04" // Public video for Savasana
+    videoId: "9oeoIqAsyZg" // Public video for Savasana
   },
 ];

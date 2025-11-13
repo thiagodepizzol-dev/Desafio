@@ -6,6 +6,31 @@ import { MenuIcon, ClockIcon, ChevronLeftIcon, ChevronRightIcon, CloseIcon, Play
 import { auth } from '../firebase';
 import { signOut } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
 
+// Componente da Barra de Progresso
+const ProgressBar: React.FC<{ completedDays: boolean[]; totalDays: number }> = ({ completedDays, totalDays }) => {
+  const completedCount = completedDays.filter(Boolean).length;
+  const progressPercentage = totalDays > 0 ? (completedCount / totalDays) * 100 : 0;
+
+  return (
+    <div className="w-full">
+      <div className="h-2 w-full bg-brand-green rounded-full overflow-hidden">
+        <div
+          className="h-full bg-brand-text rounded-full transition-all duration-500 ease-in-out"
+          style={{ width: `${progressPercentage}%` }}
+          role="progressbar"
+          aria-valuenow={completedCount}
+          aria-valuemin={0}
+          aria-valuemax={totalDays}
+        ></div>
+      </div>
+      <p className="text-xs text-brand-text/80 mt-1 text-center font-sans">
+        {completedCount} de {totalDays} dias concluídos
+      </p>
+    </div>
+  );
+};
+
+
 interface ChallengeScreenProps {
   currentDay: number;
   setCurrentDay: (day: number) => void;
@@ -61,8 +86,11 @@ const ChallengeScreen: React.FC<ChallengeScreenProps> = ({ currentDay, setCurren
 
   return (
     <div className="relative min-h-screen bg-brand-bg text-brand-text overflow-x-hidden">
-      <header className="absolute top-0 right-0 p-6 z-20">
-        <button onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Abrir menu">
+       <header className="absolute top-0 left-0 right-0 p-4 sm:p-6 z-20 flex justify-between items-center w-full">
+        <div className="flex-grow mr-4">
+          <ProgressBar completedDays={completedDays} totalDays={CHALLENGE_DATA.length} />
+        </div>
+        <button onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Abrir menu" className="flex-shrink-0">
           <MenuIcon />
         </button>
       </header>
@@ -105,7 +133,7 @@ const ChallengeScreen: React.FC<ChallengeScreenProps> = ({ currentDay, setCurren
         </div>
       )}
 
-      <main className="pt-20 px-4 md:px-8">
+      <main className="pt-28 px-4 md:px-8">
         <div className="relative aspect-video rounded-lg overflow-hidden shadow-lg mx-auto max-w-sm bg-black group">
           <YouTube
             videoId={dayData.videoId}
