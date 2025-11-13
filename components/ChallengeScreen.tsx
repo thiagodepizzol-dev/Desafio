@@ -119,7 +119,8 @@ const ChallengeScreen: React.FC<ChallengeScreenProps> = ({ currentDay, setCurren
             }}
             onReady={onPlayerReady}
             onStateChange={handleStateChange}
-            className="w-full h-full"
+            className="absolute top-0 left-0 w-full h-full"
+            iframeClassName="w-full h-full"
           />
           <div className="absolute inset-0 cursor-pointer" onClick={togglePlay}>
             <div className="absolute inset-0 flex items-center justify-center">
