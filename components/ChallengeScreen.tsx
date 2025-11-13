@@ -78,17 +78,17 @@ const ChallengeScreen: React.FC<ChallengeScreenProps> = ({ currentDay, setCurren
       <main className="pt-20 px-4 md:px-8">
         <div className="aspect-video rounded-lg overflow-hidden shadow-lg mx-auto max-w-sm">
            <iframe 
-            src={`https://www.youtube.com/embed/${dayData.videoId}?autoplay=1&mute=1&loop=1&playlist=${dayData.videoId}`} 
+            src={`https://www.youtube.com/embed/${dayData.videoId}`} 
             title={dayData.title}
             frameBorder="0" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
             allowFullScreen
             className="w-full h-full"
           ></iframe>
         </div>
 
         <div className="max-w-4xl mx-auto mt-8 text-center">
-          <h1 className="font-serif text-4xl md:text-5xl">Dia {dayData.day}: {dayData.title}</h1>
+          <h1 className="font-serif text-3xl md:text-4xl">Dia {dayData.day}: {dayData.title}</h1>
           <p className="mt-4 text-base md:text-lg max-w-2xl mx-auto">{dayData.description}</p>
         </div>
         
