@@ -68,8 +68,10 @@ const App: React.FC = () => {
 
   // Save progress to Firestore whenever it changes
   useEffect(() => {
-    if (!user || loading) {
-      return; // Don't save if there's no user or initial data is loading
+    // Don't save if there's no user, initial data is loading, or challenge hasn't started yet.
+    // The initial save is handled by handleStartChallenge for new users.
+    if (!user || loading || !challengeStarted) {
+      return;
     }
 
     const saveProgress = async () => {
@@ -86,11 +88,29 @@ const App: React.FC = () => {
     
     saveProgress();
 
-  }, [currentDay, completedDays, user, loading]);
+  }, [currentDay, completedDays, user, loading, challengeStarted]);
 
 
-  const handleStartChallenge = () => {
-    setChallengeStarted(true);
+  const handleStartChallenge = async () => {
+    if (!user) return;
+
+    const initialProgress = {
+      currentDay: 1,
+      completedDays: Array(CHALLENGE_DATA.length).fill(false),
+    };
+
+    try {
+      // First, save the initial state to Firestore to create the document
+      const docRef = doc(db, 'userProgress', user.uid);
+      await setDoc(docRef, initialProgress);
+
+      // Then, update the local state and UI to show the challenge screen
+      setCurrentDay(initialProgress.currentDay);
+      setCompletedDays(initialProgress.completedDays);
+      setChallengeStarted(true);
+    } catch (error) {
+      console.error("Error starting challenge and saving initial progress: ", error);
+    }
   };
 
   const toggleDayCompletion = (dayIndex: number) => {
