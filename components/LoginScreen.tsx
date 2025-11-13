@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { auth } from '../firebase';
-import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 const getFriendlyErrorMessage = (errorCode: string) => {
     switch (errorCode) {

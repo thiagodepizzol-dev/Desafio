@@ -4,7 +4,7 @@ import { CHALLENGE_DATA } from '../constants';
 import { ChallengeDay } from '../types';
 import { MenuIcon, ClockIcon, ChevronLeftIcon, ChevronRightIcon, CloseIcon, PlayIcon, PauseIcon } from './icons';
 import { auth } from '../firebase';
-import { signOut } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
+import { signOut } from "firebase/auth";
 
 // Componente da Barra de Progresso
 const ProgressBar: React.FC<{ completedDays: boolean[]; totalDays: number }> = ({ completedDays, totalDays }) => {

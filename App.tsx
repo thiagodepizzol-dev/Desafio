@@ -4,8 +4,8 @@ import WelcomeScreen from './components/WelcomeScreen';
 import ChallengeScreen from './components/ChallengeScreen';
 import { CHALLENGE_DATA } from './constants';
 import { auth, db } from './firebase';
-import { onAuthStateChanged, User } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
-import { doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js";
+import { onAuthStateChanged, User } from "firebase/auth";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
 
 const App: React.FC = () => {
