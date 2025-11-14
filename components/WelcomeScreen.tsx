@@ -21,10 +21,10 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ userName, onStart }) => {
     await signOut(auth);
   };
 
-  // FIX: The 'mute' property in playerVars caused a type error. The video is now muted programmatically in onPlayerReady, which is a safer alternative.
+  // The video is unmuted programmatically to allow autoplay with sound.
   const onPlayerReady = (event: { target: any; }) => {
     setPlayer(event.target);
-    event.target.mute();
+    event.target.unMute();
   };
 
   const handleStateChange = (event: { data: number; }) => {
