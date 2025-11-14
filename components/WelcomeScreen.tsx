@@ -11,7 +11,7 @@ interface WelcomeScreenProps {
   onStart: () => void;
 }
 
-const WELCOME_VIDEO_ID = "bl9GFTheFeU"; // Using Day 1 video as welcome video
+const WELCOME_VIDEO_ID = "L3r_TSwq1zc"; // Using Day 1 video as welcome video
 
 const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ userName, onStart }) => {
   const [player, setPlayer] = useState<any>(null);
