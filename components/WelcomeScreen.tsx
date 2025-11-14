@@ -63,7 +63,10 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ userName, onStart }) => {
           Bem-vindo(a) ao desafio dos 7 dias para regular o sistema nervoso transformando estresse e ansiedade em força e presença!
         </p>
 
-        <div className="relative w-72 h-72 rounded-full overflow-hidden shadow-lg mx-auto bg-black group mt-8">
+        <div 
+          className="relative w-72 h-72 rounded-full overflow-hidden shadow-lg mx-auto bg-black group mt-8"
+          style={{ transform: 'translateZ(0)' }} // Fix for iOS border-radius clipping issue
+        >
           <YouTube
             videoId={WELCOME_VIDEO_ID}
             opts={{
