@@ -79,7 +79,7 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ userName, onStart }) => {
             }}
             onReady={onPlayerReady}
             onStateChange={handleStateChange}
-            className="absolute top-1/2 left-1/2 w-[178%] h-[316%] -translate-x-1/2 -translate-y-1/2"
+            className="absolute top-1/2 left-1/2 w-[125%] h-[222%] -translate-x-1/2 -translate-y-1/2"
             iframeClassName="w-full h-full"
           />
           <div className="absolute inset-0 cursor-pointer" onClick={togglePlay}>
