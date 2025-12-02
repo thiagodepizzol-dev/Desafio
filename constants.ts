@@ -3,7 +3,7 @@ import { ChallengeDay } from './types';
 export const CHALLENGE_DATA: ChallengeDay[] = [
   {
     day: 1,
-    title: "Respiração Quadradas dos Navy Seals Americanos",
+    title: "Respiração Quadrada dos Navy Seals Americanos",
     description: "Essa respiração é utilizada pelos combatentes para reduzir significativamente os níveis de estresse. Sugestão: Repetir 2x ao dia (Manhã e noite)",
     duration: 10,
     videoId: "L2WQfAurZAE" // New, confirmed embeddable public video for Box Breathing

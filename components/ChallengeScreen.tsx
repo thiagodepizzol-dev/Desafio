@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import YouTube from 'react-youtube';
 import { CHALLENGE_DATA } from '../constants';
@@ -85,7 +86,7 @@ const ChallengeScreen: React.FC<ChallengeScreenProps> = ({ currentDay, setCurren
   const dayIndex = currentDay - 1;
 
   return (
-    <div className="relative min-h-screen bg-brand-bg text-brand-text overflow-x-hidden">
+    <div className="relative min-h-screen bg-brand-bg text-brand-text overflow-x-hidden flex flex-col">
        <header className="absolute top-0 left-0 right-0 p-4 sm:p-6 z-20 flex justify-between items-center w-full">
         <div className="flex-grow mr-4">
           <ProgressBar completedDays={completedDays} totalDays={CHALLENGE_DATA.length} />
@@ -112,16 +113,27 @@ const ChallengeScreen: React.FC<ChallengeScreenProps> = ({ currentDay, setCurren
               </button>
             </div>
             <ul>
-              {CHALLENGE_DATA.map(day => (
-                <li key={day.day}>
-                  <button 
-                    onClick={() => goToDay(day.day)}
-                    className={`w-full text-left py-2 px-2 rounded transition-colors ${currentDay === day.day ? 'bg-brand-green font-bold' : 'hover:bg-brand-green/50'}`}
-                  >
-                    Dia {day.day}
-                  </button>
-                </li>
-              ))}
+              {CHALLENGE_DATA.map(day => {
+                // Lógica de bloqueio: 
+                // O dia é bloqueado se não for o dia 1 E o dia anterior não estiver concluído.
+                // completedDays é indexado em 0 (Dia 1 = index 0).
+                const isLocked = day.day > 1 && !completedDays[day.day - 2];
+
+                return (
+                  <li key={day.day}>
+                    <button 
+                      onClick={() => !isLocked && goToDay(day.day)}
+                      disabled={isLocked}
+                      className={`w-full text-left py-2 px-2 rounded transition-colors 
+                        ${currentDay === day.day ? 'bg-brand-green font-bold' : ''} 
+                        ${isLocked ? 'opacity-40 cursor-not-allowed' : 'hover:bg-brand-green/50'}
+                      `}
+                    >
+                      Dia {day.day}
+                    </button>
+                  </li>
+                );
+              })}
             </ul>
              <button
                 onClick={handleLogout}
@@ -133,7 +145,7 @@ const ChallengeScreen: React.FC<ChallengeScreenProps> = ({ currentDay, setCurren
         </div>
       )}
 
-      <main className="pt-28 px-4 md:px-8">
+      <main className="pt-28 px-4 md:px-8 flex-grow">
         <div className="relative aspect-video rounded-lg overflow-hidden shadow-lg mx-auto max-w-sm bg-black group">
           <YouTube
             videoId={dayData.videoId}
@@ -209,6 +221,20 @@ const ChallengeScreen: React.FC<ChallengeScreenProps> = ({ currentDay, setCurren
             </label>
         </div>
       </footer>
+
+      <div className="relative z-20 w-full bg-brand-text py-4 text-center">
+        <p className="text-sm text-brand-bg font-sans">
+          Precisa de ajuda?{' '}
+          <a
+            href="https://wa.me/5517981463355?text=Suporte%20Desafio"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-bold underline hover:text-white transition-colors"
+          >
+            Clique aqui para falar com o suporte
+          </a>
+        </p>
+      </div>
     </div>
   );
 };

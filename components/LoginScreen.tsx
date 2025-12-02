@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { auth } from '../firebase';
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -39,7 +40,7 @@ const LoginScreen: React.FC = () => {
       <div className="w-full max-w-sm pt-8">
         <h1 className="font-serif text-4xl font-medium">Desafio dos 7 dias</h1>
         <p className="mt-2 text-lg">
-          para regular o sistema nervoso<br />
+          para Transformar Estresse e Ansiedade em Força e Presença com apenas 10 minutos por dia.<br />
           <span className="font-bold">com Thiago De Pizzol</span>
         </p>
         <div className="w-24 h-px bg-brand-text mx-auto my-6"></div>
@@ -73,6 +74,20 @@ const LoginScreen: React.FC = () => {
           >
             ACESSAR
           </button>
+
+          <div className="mt-6 text-sm font-sans">
+            <p>
+              Precisa de ajuda?{' '}
+              <a 
+                href="https://wa.me/5517981463355?text=Suporte%20Desafio" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="font-bold underline hover:text-brand-text/80 transition-colors"
+              >
+                Clique aqui para falar com o suporte
+              </a>
+            </p>
+          </div>
         </form>
       </div>
       

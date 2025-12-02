@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import LoginScreen from './components/LoginScreen';
 import WelcomeScreen from './components/WelcomeScreen';
 import ChallengeScreen from './components/ChallengeScreen';
+import DashboardScreen from './components/DashboardScreen';
 import { CHALLENGE_DATA } from './constants';
 import { auth, db } from './firebase';
 import { onAuthStateChanged, User } from "firebase/auth";
@@ -12,9 +13,18 @@ const App: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [challengeStarted, setChallengeStarted] = useState(false);
+  const [isDashboard, setIsDashboard] = useState(false);
 
   const [currentDay, setCurrentDay] = useState(1);
   const [completedDays, setCompletedDays] = useState<boolean[]>(Array(CHALLENGE_DATA.length).fill(false));
+
+  // Check for dashboard URL param
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.has('dashboard')) {
+      setIsDashboard(true);
+    }
+  }, []);
 
   // Handle user authentication state and load data
   useEffect(() => {
@@ -47,6 +57,15 @@ const App: React.FC = () => {
               setCompletedDays(loadedCompleted);
           }
           
+          // Ensure email is saved in the document for the dashboard
+          if (!data.email && currentUser.email) {
+             await setDoc(docRef, { 
+                 ...data,
+                 email: currentUser.email,
+                 lastLogin: new Date().toISOString()
+             }, { merge: true });
+          }
+
           setChallengeStarted(true); // User has existing progress, go directly to challenge
         } else {
             // New user or no progress saved, show welcome screen first
@@ -77,10 +96,14 @@ const App: React.FC = () => {
     const saveProgress = async () => {
       try {
         const docRef = doc(db, 'userProgress', user.uid);
+        // Using merge: true to avoid overwriting fields like email if they exist, 
+        // though here we explicitly include what we want to save.
         await setDoc(docRef, {
           currentDay,
           completedDays,
-        });
+          email: user.email, // Ensure email is always up to date
+          lastLogin: new Date().toISOString()
+        }, { merge: true });
       } catch (error) {
         console.error("Error saving progress: ", error);
       }
@@ -97,6 +120,8 @@ const App: React.FC = () => {
     const initialProgress = {
       currentDay: 1,
       completedDays: Array(CHALLENGE_DATA.length).fill(false),
+      email: user.email,
+      lastLogin: new Date().toISOString()
     };
 
     try {
@@ -127,6 +152,10 @@ const App: React.FC = () => {
   };
 
   const renderView = () => {
+    if (isDashboard) {
+      return <DashboardScreen />;
+    }
+
     if (loading) {
       return (
         <div className="flex items-center justify-center min-h-screen bg-brand-bg text-brand-text">
